@@ -7,7 +7,7 @@ from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField
 from wtforms.validators import DataRequired
 
-from models import db, Person_info
+from models import db, PersonInfo
 
 
 class QueryForm(FlaskForm):
@@ -44,7 +44,7 @@ def index():
     form = QueryForm()
     if request.method == 'POST':
         query_str = int(form.name.data)
-        p = Person_info.query.get(query_str)
+        p = PersonInfo.query.get(query_str)
         return render_template('profile_new.html', id=p)
     else:
         return render_template('index.html', form=form)
