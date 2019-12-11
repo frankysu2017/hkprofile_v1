@@ -1,0 +1,349 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>香港个人档案 - 修改</title>
+
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	#base64_code{
+		display: none;
+	}
+	#file_input1{
+		display: none;
+	}
+	.file_box1{
+		margin: 15px;
+		width: 100px;
+		height: 100px;
+		background: #f5f5f5;
+		font-size: 80px;
+		line-height: 100px;
+		text-align: center;
+		cursor:pointer;
+	}
+	#imgbox1{
+		box-sizing: border-box;
+		width:100%;
+		height:270px;
+		background: #eee;
+		padding: 15px;
+		display: flex;
+		overflow-x: auto;
+	}
+	#imgbox1 img{
+		display: block;
+		height: 100%;
+		margin-right: 5px;
+  }
+</style>
+
+{% endblock %}
+
+{% block content %}
+<!-- /.row -->
+<div class="row">
+	<form class="form-horizontal" action="/edit/{{ data[0] }}" method="POST">
+		<div class="col-lg-6 col-xs-12">
+			<div class="box-content card white">
+				<h4 class="box-title">人员照片</h4>
+				<div onclick="clickfile()" class="file_box1">+
+					<input type="file" id="file_input1" onchange="changefile(files)" accept="image/*" multiple="multiple"/>
+				</div>
+				<div id="imgbox1">
+					{% if data[3] %}
+					{% for i in range(data[3]|length) %}
+					<img src={{ data[3][i] }} />
+					{% endfor %}
+					{% endif %}
+				</div>
+				<textarea id="base64_code" name="picture"></textarea>
+			</div>
+		</div>
+		<div class="col-lg-6 col-xs-12">
+			<div class="box-content card white">
+				<h4 class="box-title">基本信息</h4>
+				<!-- /.box-title -->
+				<div class="card-content">
+					<div class="form-group">
+						<label for="inp-type-1" class="col-sm-3 control-label">中文名</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" name="cn_name" id="inp-type-1" value={{ data[1] }}>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inp-type-2" class="col-sm-3 control-label">英文名</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" name="en_name" id="inp-type-2" value={{ data[2] }}>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">性别</label>
+						<div class="col-sm-9">
+							<select class="form-control" name="gender">
+								<option {% if data[4] =="性别未注明" %} selected {% endif %}>性别未注明</option>
+                        		<option {% if data[4] =="男" %} selected {% endif %}>男</option>
+                        		<option {% if data[4] =="女" %} selected {% endif %}>女</option>
+                        		<option {% if data[4] =="未知" %} selected {% endif %}>未知</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">出生日期</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" value="{{ data[5] }}" name="birthdate" id="datepicker-autoclose">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inp-type-3" class="col-sm-3 control-label">党派</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" name="party" id="inp-type-3" value="{{ data[12] }}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inp-type-4" class="col-sm-3 control-label">职业</label>
+						<div class="col-sm-9">
+							<input type="text" class="form-control" name="occupation" id="inp-type-4" value="{{ data[13] }}">
+						</div>
+					</div>
+				</div>
+				<!-- /.card-content -->
+			</div>
+			<!-- /.box-content card white -->
+		</div>
+		<!-- /.col-lg-12 col-xs-12 -->
+
+		<div class="row">
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">证件号码</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-1" class="btn btn-default"><i class="fa fa-book"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-1" type="text" class="form-control" name="id_num" {% if data[6] %} value="{{ data[6] }}" {% else %} placeholder="身份证号" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-2" class="btn btn-default"><i class="fa fa-cc"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-2" type="text" class="form-control" name="permit_num" {% if data[7] %} value="{{ data[7] }}" {% else %} placeholder="通行证号/回乡证号" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-3" class="btn btn-default"><i class="fa fa-credit-card"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-3" type="text" class="form-control" name="passport" {% if data[8] %} value="{{ data[8] }}" {% else %} placeholder="护照号" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group">
+							<div class="input-group-btn"><label for="ig-4" class="btn btn-default"><i class="fa fa-dollar"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-4" type="text" class="form-control" name="bank_account" {% if data[20] %} value="{{ data[20] }}" {% else %} placeholder="银行账号" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+					</div>
+					<!-- /.card-content -->
+				</div>
+				<!-- /.box-content card white -->
+			</div>
+			
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">电信码址</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-5" class="btn btn-default"><i class="fa fa-phone-square"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-5" type="text" class="form-control" name="private_phone" {% if data[14] %} value="{{ data[14] }}" {% else %} placeholder="私人电话" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-6" class="btn btn-default"><i class="fa fa-university"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-6" type="text" class="form-control" name="company_phone" {% if data[15] %} value="{{ data[15] }}" {% else %} placeholder="办公电话" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-7" class="btn btn-default"><i class="fa fa-fax"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-7" type="text" class="form-control" name="fax" {% if data[16] %} value="{{ data[16] }}" {% else %} placeholder="传真" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group">
+							<div class="input-group-btn"><label for="ig-8" class="btn btn-default"><i class="fa fa-tty"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-8" type="text" class="form-control" name="other_number" {% if data[21] %} value="{{ data[21] }}" {% else %} placeholder="其他号码" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+					</div>
+					<!-- /.card-content -->
+				</div>
+				<!-- /.box-content card white -->
+			</div>
+		<!-- /.col-lg-4 col-xs-12 -->
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">网络码址</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-9" class="btn btn-default"><i class="fa fa-envelope"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-9" type="email" class="form-control" name="email" {% if data[17] %} value="{{ data[17] }}" {% else %} placeholder="电子邮件" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-10" class="btn btn-default"><i class="fa fa-whatsapp"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-10" type="text" class="form-control" name="internet_account" {% if data[18] %} value="{{ data[18] }}" {% else %} placeholder="网络账号" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-11" class="btn btn-default"><i class="fa fa-home"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-11" type="text" class="form-control" name="homepage" {% if data[19] %} value="{{ data[19] }}" {% else %} placeholder="个人主页" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group">
+							<div class="input-group-btn"><label for="ig-12" class="btn btn-default"><i class="fa fa-share-alt"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-12" type="text" class="form-control" name="other_inter_account" placeholder="其他账号">
+						</div>
+						<!-- /.input-group -->
+					</div>
+					<!-- /.card-content -->
+				</div>
+				<!-- /.box-content card white -->
+			</div>
+		<!-- /.col-lg-4 col-xs-12 -->
+
+		</div>
+		<!-- /.col-lg-4 col-xs-12 -->
+
+		<div class="row">
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">地址街道</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-13" class="btn btn-default"><i class="fa fa-building"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-13" type="text" class="form-control" name="home_address" {% if data[9] %} value="{{ data[9] }}" {% else %} placeholder="住宅地址" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group margin-bottom-20">
+							<div class="input-group-btn"><label for="ig-14" class="btn btn-default"><i class="fa fa-location-arrow"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-14" type="text" class="form-control" name="company_address" {% if data[11] %} value="{{ data[11] }}" {% else %} placeholder="工作地址" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+						<div class="input-group">
+							<div class="input-group-btn"><label for="ig-15" class="btn btn-default"><i class="fa fa-shopping-cart"></i></label></div>
+							<!-- /.input-group-btn -->
+							<input id="ig-15" type="text" class="form-control" name="post_address" {% if data[10] %} value="{{ data[10] }}" {% else %} placeholder="快递地址" {% endif %}>
+						</div>
+						<!-- /.input-group -->
+					</div>
+					<!-- /.card-content -->
+				</div>
+				<!-- /.box-content card white -->
+			</div>
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">兴趣爱好</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="form-group">
+								<textarea class="form-control margin-bottom-20" name="hobby">{{ data[23] }}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">家庭情况</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="form-group">
+							<textarea class="form-control margin-bottom-20" name="family" id="inp-type-5">{{ data[22] }}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">个人经历</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="form-group">
+							<textarea class="form-control margin-bottom-20" name="experience">{{ data[24] }}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">重大事件</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="form-group">
+							<textarea class="form-control margin-bottom-20" name="event">{{ data[25] }}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-4 col-xs-12">
+				<div class="box-content card white">
+					<h4 class="box-title">污点劣迹</h4>
+					<!-- /.box-title -->
+					<div class="card-content">
+						<div class="form-group">
+							<textarea class="form-control margin-bottom-20" name="stain">{{ data[26] }}</textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<p>提交前请认真核对</p>
+		<button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">提交</button>
+	</form>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+  function clickfile(){
+    document.getElementById('file_input1').click();
+  }
+  function changefile(files) {
+    let url_arry=[];
+    let url_arry2=[];
+    let file_arry=[];
+    for (var i=0;i<files.length;i++) {
+      let file = files[i];
+      file_arry.push(file);
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      let that = this;
+      reader.onload = function(e) {
+        let url = e.target.result;
+        url_arry2.push(url)
+        url_arry.push('<img src="'+url+'"/>');
+        document.getElementById('imgbox1').innerHTML=url_arry.join('');
+        document.getElementById('base64_code').innerHTML=url_arry2.join('\n');
+      };
+    }
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block head %}
+<title>香港个人档案 - 主页</title>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page_header">
+	<h1>人员信息检索</h1>
+</div>
+{{wtf.quick_form(form)}}
+
+{% endblock %}
