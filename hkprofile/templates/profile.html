@@ -9,15 +9,15 @@
 <div class="col-md-3 col-xs-12">
 	<div class="box-content bordered primary margin-bottom-20">
 		<div class="profile-avatar">
-			{% if data[3] %}
-			{% for i in range(data[3]|length) %}
-			<img src={{ data[3][i] }} />
+			{% if p.picture %}
+			{% for pic in p.picture %}
+			<img src={{ pic }} />
 			{% endfor %}
 			{% endif %}
-			<a href="#" class="btn btn-block btn-friend"><i class="fa fa-check-circle"></i> {% if data[1] %} {{ data[1] }} {% else %} {{ data[2] }} {% endif %} </a>
-			<h3><strong>{% if data[1] %} {{ data[1] }} {% else %} {{ data[2] }} {% endif %}</strong></h3>
-			<h4>{% if data[13] %} {{ data[13] }} {% else %} 具体职业暂未掌握 {% endif %}</h4>
-			<p>{% if data[24] %} {{ data[24] }} {% else %} 具体经历待补充 {% endif %}</p>
+			<a href="#" class="btn btn-block btn-friend"><i class="fa fa-check-circle"></i> {% if p.cn_name %} {{ p.cn_name }} {% else %} {{ p.en_name }} {% endif %} </a>
+			<h3><strong>{% if p.cn_name %} {{ p.cn_name }} {% else %} {{ p.en_name }} {% endif %}</strong></h3>
+			<h4>{% if p.occupation %} {{ p.occupation }} {% else %} 具体职业暂未掌握 {% endif %}</h4>
+			<p>{% if p.experience %} {{ p.experience }} {% else %} 具体经历待补充 {% endif %}</p>
 		</div>
 		<!-- .profile-avatar -->
 		<table class="table table-hover no-margin">
@@ -74,10 +74,10 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[1] %}
+								{% if p.cn_name %}
 								<div class="col-xs-5"><label>中文名:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[1] }}</div>
+								<div class="col-xs-7">{{ p.cn_name }}</div>
 								{% endif %}
 								<!-- /.col-xs-7 -->
 							</div>
@@ -86,10 +86,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[2] %}
+								{% if p.en_name %}
 								<div class="col-xs-5"><label>英文名:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[2] }}</div>
+								<div class="col-xs-7">{{ p.en_name }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -98,10 +98,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[4] %}
+								{% if p.gender %}
 								<div class="col-xs-5"><label>性别:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[4] }}</div>
+								<div class="col-xs-7">{{ p.gender }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -110,10 +110,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[5] %}
+								{% if p.birthdate %}
 								<div class="col-xs-5"><label>出生日期:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[5] }}</div>
+								<div class="col-xs-7">{{ p.birthdate }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -122,10 +122,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[6] %}
+								{% if p.id_num %}
 								<div class="col-xs-5"><label>身份证号:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[6] }}</div>
+								<div class="col-xs-7">{{ p.id_num }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -134,10 +134,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[13] %}
+								{% if p.occupation %}
 								<div class="col-xs-5"><label>职业 :</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[13] }}</div>
+								<div class="col-xs-7">{{ p.occupation }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -146,10 +146,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[7] %}
+								{% if p.permit_num %}
 								<div class="col-xs-5"><label>通行证号/回乡证号:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[7] }}</div>
+								<div class="col-xs-7">{{ p.permit_num }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -158,10 +158,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[8] %}
+								{% if p.passport %}
 								<div class="col-xs-5"><label>护照号:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[8] }}</div>
+								<div class="col-xs-7">{{ p.passport }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -170,10 +170,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[12] %}
+								{% if p.party_tag %}
 								<div class="col-xs-5"><label>党派:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[12] }}</div>
+								<div class="col-xs-7">{{ p.party_tag }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -182,9 +182,9 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[19] %}
+								{% if p.homepage %}
 								<div class="col-xs-5"><label>个人网址:</label></div>
-								<div class="col-xs-7">{{ data[19] }}</div>
+								<div class="col-xs-7">{{ p.homepage }}</div>
 								{% endif %}
 							</div>
 							<!-- /.row -->
@@ -192,9 +192,9 @@
 						<!-- /.col-md-6 -->
 						<div class="col-md-6">
 							<div class="row">
-								{% if data[22] %}
+								{% if p.family %}
 								<div class="col-xs-5"><label>家庭情况:</label></div>
-								<div class="col-xs-7">{{ data[22] }}</div>
+								<div class="col-xs-7">{{ p.family }}</div>
 								{% endif %}
 							</div>
 							<!-- /.row -->
@@ -234,10 +234,10 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[14] %}
+								{% if p.private_phone %}
 								<div class="col-xs-5"><label>私人电话:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[14] }}</div>
+								<div class="col-xs-7">{{ p.private_phone }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -246,10 +246,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[15] %}
+								{% if p.office_phone %}
 								<div class="col-xs-5"><label>办公电话:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[15] }}</div>
+								<div class="col-xs-7">{{ p.office_phone }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -258,10 +258,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[16] %}
+								{% if p.fax %}
 								<div class="col-xs-5"><label>传真电话:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[16] }}</div>
+								<div class="col-xs-7">{{ p.fax }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -270,10 +270,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[17] %}
+								{% if p.email %}
 								<div class="col-xs-5"><label>电子邮件:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[17] }}</div>
+								<div class="col-xs-7">{{ p.email }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -282,10 +282,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[18] %}
+								{% if p.internet_account %}
 								<div class="col-xs-5"><label>网络账号:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[18] }}</div>
+								<div class="col-xs-7">{{ p.internet_account }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -293,10 +293,10 @@
 						</div>
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[21] %}
+								{% if p.other_number %}
 								<div class="col-xs-5"><label>其他号码:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[21] }}</div>
+								<div class="col-xs-7">{{ p.other_number }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -330,10 +330,10 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[20] %}
+								{% if p.bank_account %}
 								<div class="col-xs-5"><label>银行账号:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[20] }}</div>
+								<div class="col-xs-7">{{ p.bank_account }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -342,10 +342,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[9] %}
+								{% if p.home_address %}
 								<div class="col-xs-5"><label>住宅地址:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[9] }}</div>
+								<div class="col-xs-7">{{ p.home_address }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -354,10 +354,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[10] %}
+								{% if p.post_address %}
 								<div class="col-xs-5"><label>寄递地址:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[10] }}</div>
+								<div class="col-xs-7">{{ p.post_address }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -366,10 +366,10 @@
 						<!-- /.col-md-6 -->
 						<div class="col-xs-12">
 							<div class="row">
-								{% if data[10] %}
+								{% if p.company_address %}
 								<div class="col-xs-5"><label>工作地址:</label></div>
 								<!-- /.col-xs-5 -->
-								<div class="col-xs-7">{{ data[11] }}</div>
+								<div class="col-xs-7">{{ p.company_address }}</div>
 								<!-- /.col-xs-7 -->
 								{% endif %}
 							</div>
@@ -384,7 +384,7 @@
 			<!-- /.box-content card -->
 		</div>
 		<!-- /.col-md-12 -->
-		{% if data[23] %}
+		{% if p.hobby %}
 		<div class="col-md-12 col-xs-12">
 			<div class="box-content card">
 				<h4 class="box-title"><i class="fa fa-file-text ico"></i> 个人喜好</h4>
@@ -403,7 +403,7 @@
 				<!-- /.dropdown js__dropdown -->
 				<div class="card-content">
 					<ul class="dot-list">
-						<li>{{ data[23] }}<span class="date">November 2019 ~ Now</span></li>
+						<li>{{ p.hobby }}<span class="date">November 2019 ~ Now</span></li>
 					</ul>
 				</div>
 				<!-- /.card-content -->
@@ -412,7 +412,7 @@
 		</div>
 		{% endif %}
 		<!-- /.col-md-6 -->
-		{% if data[24] %}
+		{% if p.experience %}
 		<div class="col-md-12 col-xs-12">
 			<div class="box-content card">
 				<h4 class="box-title"><i class="fa fa-trophy ico"></i> 个人经历</h4>
@@ -431,7 +431,7 @@
 				<!-- /.dropdown js__dropdown -->
 				<div class="card-content">
 					<ul class="dot-list">
-						<li><a href="#">{{ data[24] }}</a>.<span class="date">November 2019 ~ Now</span></li>
+						<li><a href="#">{{ p.experience }}</a>.<span class="date">November 2019 ~ Now</span></li>
 					</ul>
 				</div>
 				<!-- /.card-content -->
@@ -440,7 +440,7 @@
 		</div>
 		{% endif %}
 		<!-- /.col-md-12 -->
-		{% if data[25] %}
+		{% if p.event %}
 		<div class="col-md-12 col-xs-12">
 			<div class="box-content card">
 				<h4 class="box-title"><i class="fa fa-cutlery ico"></i>重大事件</h4>
@@ -459,7 +459,7 @@
 				<!-- /.dropdown js__dropdown -->
 				<div class="card-content">
 					<ul class="dot-list">
-						<li>{{ data[25] }}<span class="date">November 2019 ~ Now</span></li>
+						<li>{{ p.event }}<span class="date">November 2019 ~ Now</span></li>
 					</ul>
 				</div>
 				<!-- /.card-content -->
@@ -468,7 +468,7 @@
 		</div>
 		{% endif %}
 		<!-- /.col-md-6 -->
-		{% if data[26] %}
+		{% if p.stain %}
     <div class="col-md-12 col-xs-12">
 			<div class="box-content card">
 				<h4 class="box-title"><i class="fa fa-flask ico"></i> 污点劣迹</h4>
@@ -487,7 +487,7 @@
 				<!-- /.dropdown js__dropdown -->
 				<div class="card-content">
 					<ul class="dot-list">
-						<li><a href="#">{{ data[26] }}</a>.<span class="date">November 2019 ~ Now</span></li>
+						<li><a href="#">{{ p.stain }}</a>.<span class="date">November 2019 ~ Now</span></li>
 					</ul>
 				</div>
 				<!-- /.card-content -->
@@ -519,7 +519,7 @@
 						<li>
 							<a href="#">
 								<span class="avatar bg-danger"><i class="glyphicon glyphicon-user"></i></span>
-								<span class="name">{% if data[1] %} {{ data[1] }} {% else %} {{ data[2] }} {% endif %}</span>
+								<span class="name">{% if p.cn_name %} {{ p.cn_name }} {% else %} {{ p.en_name }} {% endif %}</span>
 								<span class="desc">接收快递</span>
 								<span class="time">2 hours ago</span>
 							</a>

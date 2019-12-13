@@ -8,7 +8,6 @@ from flask_script import Manager, Server
 
 from hkprofile import create_app
 from hkprofile.models import db, PersonInfo
-from models import columns
 
 
 env = os.environ.get('HKPROFILE_ENV', 'dev')
