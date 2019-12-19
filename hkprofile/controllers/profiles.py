@@ -8,8 +8,9 @@ from flask import Blueprint, render_template, request,url_for, redirect
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField
 from wtforms.validators import DataRequired
+from datetime import datetime
 
-from models import db, PersonInfo
+from models import db, PersonInfo, Avatar
 
 
 class QueryForm(FlaskForm):
@@ -63,19 +64,33 @@ def person_list():
 def insert():
     if request.method == 'POST':
         p = PersonInfo(
-            cn_name=request.form['cn_name'], en_name=request.form['en_name'], picture=request.form['picture'],
-            gender=request.form['gender'], birthdate=request.form['birthdate'], id_num=request.form['id_num'],
+            cn_name=request.form['cn_name'], en_name=request.form['en_name'], gender=request.form['gender'],
+            birthdate=datetime.strptime(request.form['birthdate'], '%m/%d/%Y'), id_num=request.form['id_num'],
             permit_num=request.form['permit_num'], passport=request.form['passport'], home_address=request.form['home_address'],
             post_address=request.form['post_address'], company_address=request.form['company_address'],
-            party=request.form['party'], occupation=request.form['occupation'], private_phone=request.form['private_phone'],
-            company_phone=request.form['company_phone'], fax=request.form['fax'], email=request.form['email'],
-            internet_account=request.form['internet_account'], homepage=request.form['homepage'],
+            party_tag=request.form['party'], occupation=request.form['occupation'], private_phone=request.form['private_phone'],
+            office_phone=request.form['company_phone'], fax=request.form['fax'], email=request.form['email'],
+            internet_account=request.form['internet_account'], home_page=request.form['homepage'],
             bank_account=request.form['bank_account'], other_number=request.form['other_number'],
             family=request.form['family'], hobby=request.form['hobby'], experience=request.form['experience'],
             event=request.form['event'], stain=request.form['stain']
         )
+        for item in request.form['picture'].split('\n'):
+            avt = Avatar(item)
+            p.avatar.append(avt)
         db.session.add(p)
         db.session.commit()
-        return redirect(url_for('profile', id=p.id))
+        return redirect(url_for('profile.detail', person_id=p.id))
     else:
         return render_template('insert.html')
+
+
+@query.route('/party')
+def party_list():
+    party_list = db.session.query(PersonInfo.party_tag, db.func.count('*')).group_by(PersonInfo.party_tag).all()
+    return render_template('party.html', data=party_list)
+
+
+@query.route('/party/<partyname>')
+def party_member(partyname):
+    party_members = db.session.query(PersonInfo.party_tag=partyname).all()

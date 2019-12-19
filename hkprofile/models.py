@@ -19,12 +19,12 @@ class PersonInfo(db.Model):
     __tablename__ = 'person_info'
 
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
-    picture = db.Column(db.LargeBinary)
     birthdate = db.Column(db.Date)
     for key in list(columns.keys())[1:3]+list(columns.keys())[4:5] + list(columns.keys())[6:22]:
         exec("%s = db.Column(db.String(255))" % key)
     for key in list(columns.keys())[22:]:
         exec("%s = db.Column(db.Text)" % key)
+    avatar = db.relationship('Avatar')
 
     '''
     cn_name = db.Column(db.String(255))
@@ -53,15 +53,13 @@ class PersonInfo(db.Model):
     stain = db.Column(db.Text)
     '''
 
-    def __init__(self, id, cn_name=None, en_name=None, picture=None, gender=None, birthdate=None, id_num=None,
+    def __init__(self, cn_name=None, en_name=None, gender=None, birthdate=None, id_num=None,
                  permit_num=None, passport=None, home_address=None, post_address=None, company_address=None,
                  bank_account=None, party_tag=None, occupation=None, private_phone=None, office_phone=None,
                  fax=None, other_number=None, email=None, internet_account=None, home_page=None,
                  family=None, hobby=None, experience=None, event=None, stain=None):
-        self.id = id
         self.cn_name = cn_name
         self.en_name = en_name
-        self.picture = picture
         self.gender = gender
         self.birthdate = birthdate
         self.id_num = id_num
@@ -99,3 +97,15 @@ class PersonInfo(db.Model):
             'experience': self.experience, 'event': self.event, 'stain': self.stain
         }
         return str(profile_dict)
+
+
+class Avatar(db.Model):
+    __tablename__ = 'avatar'
+
+    id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
+    person_avatar = db.Column(db.Text)
+    person_id = db.Column(db.Integer, db.ForeignKey('person_info.id'))
+
+    def __init__(self, person_avatar):
+        self.person_avatar = person_avatar
+
