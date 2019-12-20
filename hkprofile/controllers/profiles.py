@@ -140,34 +140,50 @@ def detail(person_id=0):
     return render_template('profile.html', p=p)
 
 
-@profile.route('/edit/<int:person_id>', methods=['GET', 'POST'])
+@profile.route('/edit/<int:person_id>', methods=['POST', 'GET'])
 def edit(person_id=0):
+    p = PersonInfo.query.get(person_id)
     if request.method == 'POST':
         if request.form['birthdate']:
             b_date = datetime.strptime(request.form['birthdate'], '%m/%d/%Y')
         else:
             b_date = None
-        p = PersonInfo(
-            cn_name=request.form['cn_name'], en_name=request.form['en_name'], gender=request.form['gender'],
-            birthdate=b_date, id_num=request.form['id_num'], permit_num=request.form['permit_num'],
-            passport=request.form['passport'], home_address=request.form['home_address'],
-            post_address=request.form['post_address'], company_address=request.form['company_address'],
-            party_tag=request.form['party'], occupation=request.form['occupation'],
-            private_phone=request.form['private_phone'],
-            office_phone=request.form['company_phone'], fax=request.form['fax'], email=request.form['email'],
-            internet_account=request.form['internet_account'], home_page=request.form['homepage'],
-            bank_account=request.form['bank_account'], other_number=request.form['other_number'],
-            family=request.form['family'], hobby=request.form['hobby'], experience=request.form['experience'],
-            event=request.form['event'], stain=request.form['stain']
-        )
+        p.cn_name = request.form['cn_name']
+        p.en_name = request.form['en_name']
+        p.gender = request.form['gender']
+        p.birthdate = b_date
+        p.id_num = request.form['id_num']
+        p.permit_num = request.form['permit_num']
+        p.passport = request.form['passport']
+        p.home_address = request.form['home_address']
+        p.post_address = request.form['post_address']
+        p.company_address = request.form['company_address']
+        p.party_tag = request.form['party']
+        p.occupation = request.form['occupation']
+        p.private_phone = request.form['private_phone']
+        p.office_phone = request.form['company_phone']
+        p.fax = request.form['fax']
+        p.email = request.form['email']
+        p.internet_account = request.form['internet_account']
+        p.home_page = request.form['homepage']
+        p.bank_account = request.form['bank_account']
+        p.other_number = request.form['other_number']
+        p.family = request.form['family']
+        p.hobby = request.form['hobby']
+        p.experience = request.form['experience']
+        p.event = request.form['event']
+        p.stain = request.form['stain']
         if request.form['picture']:
             for item in request.form['picture'].split('\n'):
                 avt = Avatar(item)
                 p.avatar.append(avt)
         db.session.add(p)
         db.session.commit()
-        return redirect(url_for('profile.detail', person_id=p.id))
+        return redirect(url_for('profile.detail', person_id=person_id))
     else:
-        p = PersonInfo.query.get(person_id)
-        return render_template('edit.html', p=p)
+        if p.birthdate:
+            timestring = datetime.strftime(p.birthdate, '%m/%d/%Y')
+        else:
+            timestring = ''
+        return render_template('edit.html', t=timestring, p=p)
 

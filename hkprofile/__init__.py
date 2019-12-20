@@ -6,8 +6,8 @@
 from flask import Flask, redirect, url_for
 from flask_bootstrap import Bootstrap
 
-from .models import db
-from .controllers.profiles import profile, query
+from models import db
+from controllers.profiles import profile, query
 
 bootstrap = Bootstrap()
 
