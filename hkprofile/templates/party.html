@@ -44,15 +44,15 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				{% for i in range(data|length) %}
+				{% for item in party_list %}
 				<tr>
-					<td>{% if data[i][0] %} {{ data[i][0] }} {% else %} 党派未录入 {% endif %}</td>
-					<td>{{ data[i][1] }}</td>
+					<td>{% if item.party_tag %} {{ item.party_tag }} {% else %} 党派未录入 {% endif %}</td>
+					<td>{{ item.c }}</td>
 					<td> </td>
 					<td> </td>
 					<td> </td>
 					<td>
-						<a class="btn btn-sm btn-warning" href="/list/party/{% if data[i][0] %} {{ data[i][0] }} {% else %} mysmwtsngzdgtd {% endif %}" role="button">人员列表</a></td>
+						<a class="btn btn-sm btn-warning" href="/party/{% if item.party_tag %} {{ item.party_tag }} {% else %} mysmwtsngzdgtd {% endif %}" role="button">人员列表</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>

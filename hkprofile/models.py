@@ -85,18 +85,7 @@ class PersonInfo(db.Model):
         self.stain = stain
 
     def __repr__(self):
-        profile_dict = {
-            'id': self.id, 'cn_name': self.cn_name, 'en_name': self.en_name, 'picture': self.picture,
-            'gender': self.gender, 'birthdate': self.birthdate, 'id_num': self.id_num,
-            'permit_num': self.permit_num, 'passport': self.passport, 'home_address': self.home_address,
-            'post_address': self.post_address, 'company_address': self.company_address,
-            'bank_account': self.bank_account, 'party_tag': self.party_tag, 'occupation': self.occupation,
-            'private_phone': self.private_phone, 'office_phone': self.office_phone, 'fax': self.fax,
-            'other_number': self.other_number, 'email': self.email, 'internet_account': self.internet_account,
-            'home_page': self.home_page, 'family': self.family, 'hobby': self.hobby,
-            'experience': self.experience, 'event': self.event, 'stain': self.stain
-        }
-        return str(profile_dict)
+        return '<PersonId: {}>'.format(self.id)
 
 
 class Avatar(db.Model):

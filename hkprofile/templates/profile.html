@@ -10,7 +10,9 @@
 	<div class="box-content bordered primary margin-bottom-20">
 		<div class="profile-avatar">
 			{% for avt in p.avatar %}
+			{% if avt.person_avatar %}
 			<img src={{ avt.person_avatar }} />
+			{% endif %}
 			{% endfor %}
 			<a href="#" class="btn btn-block btn-friend"><i class="fa fa-check-circle"></i> {% if p.cn_name %} {{ p.cn_name }} {% else %} {{ p.en_name }} {% endif %} </a>
 			<h3><strong>{% if p.cn_name %} {{ p.cn_name }} {% else %} {{ p.en_name }} {% endif %}</strong></h3>

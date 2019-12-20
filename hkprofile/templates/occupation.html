@@ -44,15 +44,15 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				{% for i in range(data|length) %}
+				{% for item in occu_list %}
 				<tr>
-					<td>{% if data[i][0] %} {{ data[i][0] }} {% else %} 职业未录入 {% endif %}</td>
-					<td>{{ data[i][1] }}</td>
+					<td>{% if item.occupation %} {{ item.occupation }} {% else %} 职业未录入 {% endif %}</td>
+					<td>{{ item.c }}</td>
 					<td> </td>
 					<td> </td>
 					<td> </td>
 					<td>
-						<a class="btn btn-sm btn-warning" href="/list/occupation/{% if data[i][0] %} {{ data[i][0] }} {% else %} mysmwtsngzdgtd {% endif %}" role="button">人员列表</a></td>
+						<a class="btn btn-sm btn-warning" href="/occupation/{% if item.occupation %} {{ item.occupation }} {% else %} mysmwtsngzdgtd {% endif %}" role="button">人员列表</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>

@@ -45,7 +45,7 @@
 {% block content %}
 <!-- /.row -->
 <div class="row">
-	<form class="form-horizontal" action="/edit/{{ data[0] }}" method="POST">
+	<form class="form-horizontal" action="/edit/{{ p.id }}" method="POST">
 		<div class="col-lg-6 col-xs-12">
 			<div class="box-content card white">
 				<h4 class="box-title">人员照片</h4>
@@ -53,11 +53,11 @@
 					<input type="file" id="file_input1" onchange="changefile(files)" accept="image/*" multiple="multiple"/>
 				</div>
 				<div id="imgbox1">
-					{% if data[3] %}
-					{% for i in range(data[3]|length) %}
-					<img src={{ data[3][i] }} />
-					{% endfor %}
+					{% for avt in p.avatar %}
+					{% if avt.person_avatar %}
+					<img src={{ avt.person_avatar }} />
 					{% endif %}
+					{% endfor %}
 				</div>
 				<textarea id="base64_code" name="picture"></textarea>
 			</div>
@@ -70,42 +70,42 @@
 					<div class="form-group">
 						<label for="inp-type-1" class="col-sm-3 control-label">中文名</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" name="cn_name" id="inp-type-1" value={{ data[1] }}>
+							<input type="text" class="form-control" name="cn_name" id="inp-type-1" value={{ p.cn_name }}>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="inp-type-2" class="col-sm-3 control-label">英文名</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" name="en_name" id="inp-type-2" value={{ data[2] }}>
+							<input type="text" class="form-control" name="en_name" id="inp-type-2" value={{ p.en_name }}>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">性别</label>
 						<div class="col-sm-9">
 							<select class="form-control" name="gender">
-								<option {% if data[4] =="性别未注明" %} selected {% endif %}>性别未注明</option>
-                        		<option {% if data[4] =="男" %} selected {% endif %}>男</option>
-                        		<option {% if data[4] =="女" %} selected {% endif %}>女</option>
-                        		<option {% if data[4] =="未知" %} selected {% endif %}>未知</option>
+								<option {% if p.gender =="性别未注明" %} selected {% endif %}>性别未注明</option>
+                        		<option {% if p.gender =="男" %} selected {% endif %}>男</option>
+                        		<option {% if p.gender =="女" %} selected {% endif %}>女</option>
+                        		<option {% if p.gender =="未知" %} selected {% endif %}>未知</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-3 control-label">出生日期</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" value="{{ data[5] }}" name="birthdate" id="datepicker-autoclose">
+							<input type="text" class="form-control" value="{{ p.birthdate }}" name="birthdate" id="datepicker-autoclose">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="inp-type-3" class="col-sm-3 control-label">党派</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" name="party" id="inp-type-3" value="{{ data[12] }}">
+							<input type="text" class="form-control" name="party" id="inp-type-3" value="{{ p.party_tag }}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="inp-type-4" class="col-sm-3 control-label">职业</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" name="occupation" id="inp-type-4" value="{{ data[13] }}">
+							<input type="text" class="form-control" name="occupation" id="inp-type-4" value="{{ p.occupation }}">
 						</div>
 					</div>
 				</div>
@@ -124,25 +124,25 @@
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-1" class="btn btn-default"><i class="fa fa-book"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-1" type="text" class="form-control" name="id_num" {% if data[6] %} value="{{ data[6] }}" {% else %} placeholder="身份证号" {% endif %}>
+							<input id="ig-1" type="text" class="form-control" name="id_num" {% if p.id_num %} value="{{ p.id_num }}" {% else %} placeholder="身份证号" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-2" class="btn btn-default"><i class="fa fa-cc"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-2" type="text" class="form-control" name="permit_num" {% if data[7] %} value="{{ data[7] }}" {% else %} placeholder="通行证号/回乡证号" {% endif %}>
+							<input id="ig-2" type="text" class="form-control" name="permit_num" {% if p.permit_num %} value="{{ p.permit_num }}" {% else %} placeholder="通行证号/回乡证号" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-3" class="btn btn-default"><i class="fa fa-credit-card"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-3" type="text" class="form-control" name="passport" {% if data[8] %} value="{{ data[8] }}" {% else %} placeholder="护照号" {% endif %}>
+							<input id="ig-3" type="text" class="form-control" name="passport" {% if p.passport %} value="{{ p.passport }}" {% else %} placeholder="护照号" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group">
 							<div class="input-group-btn"><label for="ig-4" class="btn btn-default"><i class="fa fa-dollar"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-4" type="text" class="form-control" name="bank_account" {% if data[20] %} value="{{ data[20] }}" {% else %} placeholder="银行账号" {% endif %}>
+							<input id="ig-4" type="text" class="form-control" name="bank_account" {% if p.bank_account %} value="{{ p.bank_account }}" {% else %} placeholder="银行账号" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 					</div>
@@ -159,25 +159,25 @@
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-5" class="btn btn-default"><i class="fa fa-phone-square"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-5" type="text" class="form-control" name="private_phone" {% if data[14] %} value="{{ data[14] }}" {% else %} placeholder="私人电话" {% endif %}>
+							<input id="ig-5" type="text" class="form-control" name="private_phone" {% if p.private_phone %} value="{{ p.private_phone }}" {% else %} placeholder="私人电话" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-6" class="btn btn-default"><i class="fa fa-university"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-6" type="text" class="form-control" name="company_phone" {% if data[15] %} value="{{ data[15] }}" {% else %} placeholder="办公电话" {% endif %}>
+							<input id="ig-6" type="text" class="form-control" name="company_phone" {% if p.office_phone %} value="{{ p.office_phone }}" {% else %} placeholder="办公电话" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-7" class="btn btn-default"><i class="fa fa-fax"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-7" type="text" class="form-control" name="fax" {% if data[16] %} value="{{ data[16] }}" {% else %} placeholder="传真" {% endif %}>
+							<input id="ig-7" type="text" class="form-control" name="fax" {% if p.fax %} value="{{ p.fax }}" {% else %} placeholder="传真" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group">
 							<div class="input-group-btn"><label for="ig-8" class="btn btn-default"><i class="fa fa-tty"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-8" type="text" class="form-control" name="other_number" {% if data[21] %} value="{{ data[21] }}" {% else %} placeholder="其他号码" {% endif %}>
+							<input id="ig-8" type="text" class="form-control" name="other_number" {% if p.other_number %} value="{{ p.other_number }}" {% else %} placeholder="其他号码" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 					</div>
@@ -194,19 +194,19 @@
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-9" class="btn btn-default"><i class="fa fa-envelope"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-9" type="email" class="form-control" name="email" {% if data[17] %} value="{{ data[17] }}" {% else %} placeholder="电子邮件" {% endif %}>
+							<input id="ig-9" type="email" class="form-control" name="email" {% if p.email %} value="{{ p.email }}" {% else %} placeholder="电子邮件" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-10" class="btn btn-default"><i class="fa fa-whatsapp"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-10" type="text" class="form-control" name="internet_account" {% if data[18] %} value="{{ data[18] }}" {% else %} placeholder="网络账号" {% endif %}>
+							<input id="ig-10" type="text" class="form-control" name="internet_account" {% if p.internet_account %} value="{{ p.internet_account }}" {% else %} placeholder="网络账号" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-11" class="btn btn-default"><i class="fa fa-home"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-11" type="text" class="form-control" name="homepage" {% if data[19] %} value="{{ data[19] }}" {% else %} placeholder="个人主页" {% endif %}>
+							<input id="ig-11" type="text" class="form-control" name="homepage" {% if p.homepage %} value="{{ p.homepage }}" {% else %} placeholder="个人主页" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group">
@@ -234,19 +234,19 @@
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-13" class="btn btn-default"><i class="fa fa-building"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-13" type="text" class="form-control" name="home_address" {% if data[9] %} value="{{ data[9] }}" {% else %} placeholder="住宅地址" {% endif %}>
+							<input id="ig-13" type="text" class="form-control" name="home_address" {% if p.home_address %} value="{{ p.home_address }}" {% else %} placeholder="住宅地址" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group margin-bottom-20">
 							<div class="input-group-btn"><label for="ig-14" class="btn btn-default"><i class="fa fa-location-arrow"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-14" type="text" class="form-control" name="company_address" {% if data[11] %} value="{{ data[11] }}" {% else %} placeholder="工作地址" {% endif %}>
+							<input id="ig-14" type="text" class="form-control" name="company_address" {% if p.company_address %} value="{{ p.company_address }}" {% else %} placeholder="工作地址" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 						<div class="input-group">
 							<div class="input-group-btn"><label for="ig-15" class="btn btn-default"><i class="fa fa-shopping-cart"></i></label></div>
 							<!-- /.input-group-btn -->
-							<input id="ig-15" type="text" class="form-control" name="post_address" {% if data[10] %} value="{{ data[10] }}" {% else %} placeholder="快递地址" {% endif %}>
+							<input id="ig-15" type="text" class="form-control" name="post_address" {% if p.post_address %} value="{{ p.post_address }}" {% else %} placeholder="快递地址" {% endif %}>
 						</div>
 						<!-- /.input-group -->
 					</div>
@@ -260,7 +260,7 @@
 					<!-- /.box-title -->
 					<div class="card-content">
 						<div class="form-group">
-								<textarea class="form-control margin-bottom-20" name="hobby">{{ data[23] }}</textarea>
+								<textarea class="form-control margin-bottom-20" name="hobby">{{ p.hobby }}</textarea>
 						</div>
 					</div>
 				</div>
@@ -271,7 +271,7 @@
 					<!-- /.box-title -->
 					<div class="card-content">
 						<div class="form-group">
-							<textarea class="form-control margin-bottom-20" name="family" id="inp-type-5">{{ data[22] }}</textarea>
+							<textarea class="form-control margin-bottom-20" name="family" id="inp-type-5">{{ p.family }}</textarea>
 						</div>
 					</div>
 				</div>
@@ -284,7 +284,7 @@
 					<!-- /.box-title -->
 					<div class="card-content">
 						<div class="form-group">
-							<textarea class="form-control margin-bottom-20" name="experience">{{ data[24] }}</textarea>
+							<textarea class="form-control margin-bottom-20" name="experience">{{ p.experience }}</textarea>
 						</div>
 					</div>
 				</div>
@@ -296,7 +296,7 @@
 					<!-- /.box-title -->
 					<div class="card-content">
 						<div class="form-group">
-							<textarea class="form-control margin-bottom-20" name="event">{{ data[25] }}</textarea>
+							<textarea class="form-control margin-bottom-20" name="event">{{ p.event }}</textarea>
 						</div>
 					</div>
 				</div>
@@ -308,7 +308,7 @@
 					<!-- /.box-title -->
 					<div class="card-content">
 						<div class="form-group">
-							<textarea class="form-control margin-bottom-20" name="stain">{{ data[26] }}</textarea>
+							<textarea class="form-control margin-bottom-20" name="stain">{{ p.stain }}</textarea>
 						</div>
 					</div>
 				</div>
