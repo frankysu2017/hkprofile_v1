@@ -1,3 +1,1 @@
-cd /D %~dp0
-start C:\Users\junie\PycharmProjects\hkprofile_v1\venv\Scripts\python.exe C:\Users\junie\PycharmProjects\hkprofile_v1\gserver.py
-pause
+cd /D %~dp0 & venv\Scripts\activate & SET PYTHONPATH=C:\Users\junie\PycharmProjects\hkprofile_v1\hkprofile\ >nul & pythonw gserver.py
