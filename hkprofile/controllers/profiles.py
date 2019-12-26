@@ -187,3 +187,14 @@ def edit(person_id=0):
             timestring = ''
         return render_template('edit.html', t=timestring, p=p)
 
+
+@profile.route('/avatar/<int:person_id>', methods=['POST', 'GET'])
+def avatar_edit(person_id):
+    p = PersonInfo.query.get(person_id)
+    if request.method == 'POST':
+        a=Avatar.query.get(int(request.form['del_id']))
+        db.session.delete(a)
+        db.session.commit()
+        return render_template('gallery.html', p=p)
+    else:
+        return render_template('gallery.html', p=p)

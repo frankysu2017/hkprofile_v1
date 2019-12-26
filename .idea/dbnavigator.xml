@@ -25,17 +25,19 @@
     <show-object-properties value="true" />
     <loaded-nodes>
       <connection connection-id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f">
-        <schema name="main" object-types="view, dataset trigger, constraint, column, table, index" />
+        <schema name="main" object-types="view, table, column, constraint, index, dataset trigger" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f">
-      <console name="Connection" type="STANDARD" schema="main" session="Main"><![CDATA[delete from avatar where id >= 13;]]></console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main">delete from avatar where id &gt;= 13;</console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f" object-ref="schemas/main/tables/avatar" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f" />
