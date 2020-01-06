@@ -46,4 +46,4 @@ if __name__ == '__main__':
         p = PersonInfo.query.get(person_id)
         a = Avatar(person_avatar)
         p.avatar.append(a)
-        db.session.commit()
+    db.session.commit()
