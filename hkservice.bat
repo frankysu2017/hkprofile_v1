@@ -1,1 +1,3 @@
-cd /D %~dp0 & venv\Scripts\activate & SET PYTHONPATH=C:\Users\junie\PycharmProjects\hkprofile_v1\hkprofile\ >nul & pythonw gserver.py
+cd /D %~dp0
+set PYTHONPATH=%~dp0\hkprofile
+start venv\Scripts\pythonw.exe gserver.py >nul

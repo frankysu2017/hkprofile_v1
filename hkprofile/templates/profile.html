@@ -14,7 +14,7 @@
 			<img src={{ avt.person_avatar }} />
 			{% endif %}
 			{% endfor %}
-			<a href="#" class="btn btn-block btn-friend"><i class="fa fa-check-circle"></i> {% if p.cn_name %} {{ p.cn_name }} {% else %} {{ p.en_name }} {% endif %} </a>
+			<a href="/profile/avatar/{{ p.id }}" class="btn btn-block btn-friend"><i class="fa fa-check-circle"></i>编辑照片</a>
 			<h3><strong>{% if p.cn_name %} {{ p.cn_name }} {% else %} {{ p.en_name }} {% endif %}</strong></h3>
 			<h4>{% if p.occupation %} {{ p.occupation }} {% else %} 具体职业暂未掌握 {% endif %}</h4>
 			<p>{% if p.experience %} {{ p.experience }} {% else %} 具体经历待补充 {% endif %}</p>

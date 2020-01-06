@@ -10,7 +10,7 @@ import sqlite3
 
 
 def type_convert(filename):
-    pngname = '/'.join(filename.split('/')[0:-1]) + '/' + filename.split('/')[-1].split('.')[0] + '.png'
+    pngname = '/'.join(filename.split('/')[0:-1]) + '/' + filename.split('/')[-1].split('.')[0] + '_c.png'
     img = cv2.imread(filename)
     cv2.imwrite(pngname, img)
 
@@ -33,5 +33,11 @@ if __name__ == "__main__":
     path = r'./testimg'
     files = [path+'/'+x for x in os.listdir(r'./testimg')]
     for file in files:
-        type_convert(file)
-        insert_img(file)
+        print(file)
+        id = int(file.split('/')[-1].split('.')[0].split('_')[0])
+        type = file.split('.')[-1].lower()
+        if type != 'png':
+            newfile = ''.join(file.split('.')[0:-1]) + '_c.png'
+        else:
+            newfile = file
+        print("id = {};\t type = {};\t filename = {}".format(id, type, newfile))
