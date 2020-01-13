@@ -33,7 +33,7 @@ def get_mainbody(msg):
     mainbody = msg.get_payload(decode=True).strip().decode(msg.get_content_charset(), 'ignore')
     html_flag = re.search('text/(.*)', msg.get_content_type()).group(1).lower()
     if html_flag == 'html':
-        prefix, html_text, suffix = re.search('(.*)(<html>.*</html>)(.*)', mainbody)
+        prefix, html_text, suffix = re.search('(.*)(<html>.*</html>)(.*)', mainbody).groups()
 
     mainbody = re.sub('[\n]+', '\n', mainbody)
     return mainbody
