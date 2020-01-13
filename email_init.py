@@ -5,75 +5,61 @@
 import email
 import re
 from bs4 import BeautifulSoup
+from datetime import datetime, tzinfo, timedelta, timezone
+from dateutil.parser import parse
 
 
-def get_ctype(msg):
-    ct = msg.get('Content-Type')
-    print(ct)
-    plain_flag = re.findall('text/(.*?);', ct)
-    print(plain_flag)
-    content_charset = re.findall('charset=(.*);?', ct)
-    print(content_charset)
-    if plain_flag:
-        plain_flag = plain_flag[0]
+def decode_str(s):
+    value, charset = email.header.decode_header(s)[0]
+    if charset:
+        value = value.decode(charset)
+    return value
+
+
+def get_subject(msg):
+    '''
+    get the email subject decoded
+    :param msg:
+    :return: subject in plain text
+    '''
+    s = msg.get('subject')
+    if s:
+        s_decoded = email.header.decode_header(s)
+        return s_decoded[0][0].decode(s_decoded[0][1], 'ignore')
     else:
-        plain_flag = None
-    if content_charset:
-        content_charset = content_charset[0]
-        if 'gb2312' in content_charset.lower():
-            content_charset = 'gbk'
-    else:
-        content_charset = None
-    return plain_flag, content_charset
+        return None
 
+
+def get_sendtime(msg):
+    if 'date' in msg:
+        return parse(msg.get('date'))
+    else:
+        return None
 
 def email_init(emlfile):
     with open(emlfile, 'r') as eml:
         msg = email.message_from_file(eml)
-        subject = msg.get('subject')
-        subject, charset = email.header.decode_header(subject)[0]
-        if isinstance(subject, bytes):
-            subject = subject.decode(charset, 'ignore')
-        f = email.utils.parseaddr(msg.get('From'))
+        print([x for x in msg])
+        subject = get_subject(msg)
+        sendtime = get_sendtime(msg)
+        print(sendtime)
+        f = email.utils.parseaddr(msg.get('from'))
         t = email.utils.parseaddr(msg.get('to'))
-        sender_name, f_charset = email.header.decode_header(f[0])[0]
-        sender_box = f[1]
-        if isinstance(sender_name, bytes):
-            sender_name = sender_name.decode(f_charset, 'ignore')
-        receiver_name, t_charset = email.header.decode_header(t[0])[0]
-        receiver_box = t[1]
-        if isinstance(receiver_name, bytes):
-            receiver_name = receiver_name.decode(t_charset, 'ignore')
         maintype = msg.get_content_maintype()
         if maintype == 'text':
-            plain_flag, content_charset = get_ctype(msg)
-            mail_content = msg.get_payload(decode=True).strip().decode(content_charset)
-            if plain_flag == 'html':
-                mail_content = BeautifulSoup(mail_content, features='html.parser').body.get_text()
+            pass
         elif maintype == 'multipart':
-            print('it is multipart email')
-            mail_content = ''
             for part in msg.get_payload():
-                plain_flag, content_charset = get_ctype(part)
                 if part.get_content_maintype() == 'text':
-                    temp_content = part.get_payload(decode=True).strip().decode(content_charset)
-                    if plain_flag == 'html':
-                        pattern = re.compile('(.*)(<HTML>.*</HTML>)(.*)', flags=re.IGNORECASE)
-                        pref, html, suf = re.search(pattern, temp_content).groups()
-                        temp_content = pref + '\n' + BeautifulSoup(html, features='html.parser').body.get_text() + '\n' + suf
-                mail_content += temp_content
-                temp_content = ''
-        #mail_content = re.sub('^[ ]*\n$', '', mail_content)
-        mail_content = re.sub('\s*\n', '\n', mail_content)
-    '''
-    for k in msg.keys():
-        print('{}: {}'.format(k, msg.get(k)))
-        print('------------------------------------------------------')
-    '''
-    return sender_name, sender_box, receiver_name, receiver_box, subject, mail_content
+                    mail_content = part.get_payload(decode=True).strip().decode('gbk','ignore')
+        s = BeautifulSoup(mail_content, features="html.parser").get_text()
+        s = re.sub('[\t*\n]+', '\n', s)
+
+
+        s = '{}, {}, {}, "{}"'.format(subject, f, t, s)
+        with open(r'test.txt', 'w', encoding='utf8') as f:
+            f.writelines(s)
 
 
 if __name__ == '__main__':
-    sn, sb, rn, rb, sub, mc = email_init(r'08.eml')
-    with open(r'08.re', 'w', encoding='utf8') as f:
-        f.writelines('"{}","{}","{}","{}","{}","{}"'.format(sn, sb, rn, rb, sub, mc))
+    email_init(r'./email/01.eml')
