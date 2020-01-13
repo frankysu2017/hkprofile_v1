@@ -36,6 +36,12 @@ def get_sendtime(msg):
     else:
         return None
 
+
+def get_mainbody(msg):
+    m = msg.get_payload(decode=True).strip()
+    return m
+
+
 def email_init(emlfile):
     with open(emlfile, 'r') as eml:
         msg = email.message_from_file(eml)
@@ -47,9 +53,10 @@ def email_init(emlfile):
         t = email.utils.parseaddr(msg.get('to'))
         maintype = msg.get_content_maintype()
         if maintype == 'text':
-            pass
+            print(msg.get_payload())
         elif maintype == 'multipart':
             for part in msg.get_payload():
+                print(part.get_content_maintype())
                 if part.get_content_maintype() == 'text':
                     mail_content = part.get_payload(decode=True).strip().decode('gbk','ignore')
         s = BeautifulSoup(mail_content, features="html.parser").get_text()
