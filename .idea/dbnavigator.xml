@@ -10,9 +10,9 @@
       <create-header value="true" />
       <quote-values-containing-separator value="true" />
       <quote-all-values value="false" />
-      <value-separator value="" />
-      <file-name value="" />
-      <file-location value="" />
+      <value-separator value="||" />
+      <file-name value="person.csv" />
+      <file-location value="C:\Users\junie\PycharmProjects\hkprofile" />
       <scope value="GLOBAL" />
       <destination value="FILE" />
       <format value="EXCEL" />
@@ -31,7 +31,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f">
-      <console name="Connection" type="STANDARD" schema="main" session="Main">delete from avatar where id &gt;= 13;</console>
+      <console name="Connection" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -41,7 +41,9 @@
     <connection id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f" dataset="main.party_tags" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f" dataset="main.avatar" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f" dataset="main.registrations" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="6bdf2ad3-73a0-47fa-94d9-64ee74b78e5f" dataset="main.person_info" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
