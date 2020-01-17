@@ -10,7 +10,31 @@ from docx import Document
 import win32com
 import win32com.client
 import xlrd
+from sqlalchemy import Column, String, create_engine, Integer, DateTime
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
 wc = win32com.client.constants
+Base = declarative_base()
+
+
+class Email(Base):
+    __tablename__ = 'email'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    send_name = Column(String(255))
+    send_box = Column(String(255))
+    receive_name = Column(String(255))
+    receive_box = Column(String(255))
+    send_time = Column(DateTime)
+    subject = Column(String(255))
+
+    def __repr__(self):
+        return '<Email(send_name="%s", send_box="%s", receive_name="%s", receive_box="%s", send_time="%s", subject="%s">' \
+               % (self.send_name, self.send_box, self.receive_name, self.receive_box, self.send_time, self.subject)
+
+
+
 
 
 def get_subject(msg):
@@ -155,6 +179,12 @@ def email_init(emlfile):
         if attachment_file:
             print('attachment file name: {}'.format(attachment_file))
             print('attachment text: {}'.format(attachment_text))
+    engine = create_engine('sqlite:///foo.db')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    e = Email(send_name=send_name, send_box=send_box, receive_name=receive_name, receive_box=receive_box, send_time=send_time, subject=subject)
+    session.add(e)
+    session.commit()
 
 
 if __name__ == '__main__':
