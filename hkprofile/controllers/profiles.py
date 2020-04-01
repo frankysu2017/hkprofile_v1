@@ -104,7 +104,7 @@ def insert():
 
 @query.route('/party')
 def party_list():
-    PersonInfo.query.filter(PersonInfo.party_tag == None).update({'party_tag': ''})
+    PersonInfo.query.filter(PersonInfo.party_tag is None).update({'party_tag': ''})
     p_list = db.session.query(PersonInfo.party_tag, db.func.count('*').label('c')).group_by(PersonInfo.party_tag).all()
     return render_template('party.html', party_list=p_list)
 
@@ -112,7 +112,7 @@ def party_list():
 @query.route('/party/<partyname>')
 def party_member(partyname):
     if partyname == ' mysmwtsngzdgtd':
-        party_members = PersonInfo.query.filter(or_(PersonInfo.party_tag == None, PersonInfo.party_tag == '')).all()
+        party_members = PersonInfo.query.filter(or_(PersonInfo.party_tag is None, PersonInfo.party_tag == '')).all()
     else:
         party_members = PersonInfo.query.filter(PersonInfo.party_tag == partyname.lstrip()).all()
     return render_template('list.html', data=party_members)
@@ -120,7 +120,7 @@ def party_member(partyname):
 
 @query.route('/occupation')
 def occupation_list():
-    PersonInfo.query.filter(PersonInfo.occupation == None).update({'occupation': ''})
+    PersonInfo.query.filter(PersonInfo.occupation is None).update({'occupation': ''})
     o_list = db.session.query(PersonInfo.occupation, db.func.count('*').label('c')).group_by(PersonInfo.occupation).all()
     return render_template('occupation.html', occu_list=o_list)
 
@@ -128,10 +128,38 @@ def occupation_list():
 @query.route('/occupation/<occupationname>')
 def occupation_member(occupationname):
     if occupationname == ' mysmwtsngzdgtd':
-        occu_members = PersonInfo.query.filter(or_(PersonInfo.occupation == None, PersonInfo.occupation == '')).all()
+        occu_members = PersonInfo.query.filter(or_(PersonInfo.occupation is None, PersonInfo.occupation == '')).all()
     else:
         occu_members = PersonInfo.query.filter(PersonInfo.occupation == occupationname.lstrip()).all()
     return render_template('list.html', data=occu_members)
+
+
+@query.route('/tags', methods=['POST', 'GET'])
+def tags():
+    PersonInfo.query.filter(PersonInfo.party_tag is None).update({'party_tag': ''})
+    p_list = []
+    for item in db.session.query(PersonInfo.party_tag).distinct().all():
+        if item.party_tag:
+            p_list.append({'party_tag': item.party_tag})
+        else:
+            p_list.append({'party_tag': "党派未录入"})
+    if request.method == 'POST':
+        checked_list = [x.strip() for x in request.form.getlist('partytags')]
+        for item in p_list:
+            if item['party_tag'] in checked_list:
+                item['flag'] = "checked"
+            else:
+                item['flag'] = ""
+        persons = []
+        for tag in checked_list:
+            tag = tag
+            if tag == '党派未录入':
+                persons.extend(PersonInfo.query.filter(or_(PersonInfo.party_tag is None, PersonInfo.party_tag == '')).all())
+            else:
+                persons.extend(PersonInfo.query.filter(PersonInfo.party_tag == tag).all())
+        return render_template('tags.html', party_list=p_list, data=persons)
+    else:
+        return render_template('tags.html', party_list=p_list)
 
 
 @profile.route('/<int:person_id>')

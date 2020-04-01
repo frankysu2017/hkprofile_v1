@@ -207,4 +207,3 @@ if __name__ == '__main__':
             if q % 1000 == 0:
                 print('processing {} mails costs {} seconds'.format(1000, datetime.now()-start))
     file.save(r'./data1.xlsx')
-

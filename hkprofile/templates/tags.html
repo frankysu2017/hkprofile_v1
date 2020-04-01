@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block head %}
+<title>香港个人档案 - 组织筛选</title>
+{% endblock %}
+
+{% block content %}
+<form class="form-horizontal" action="/tags" method="POST">
+	{% for party in party_list %}
+	<div class="col-lg-3">
+		<label class="checkbox-inline">
+			<input type="checkbox" name="partytags" {{ party['flag'] }} value="{{ party['party_tag'] }}"/>{{ party['party_tag'] }}
+		</label>
+	</div>
+	{% endfor %}
+	<br>
+	<br>
+	<br>
+	<div class="col-lg-12">
+		<button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">筛选</button>
+	</div>
+</form>
+<br>
+<div class="col-xs-12">
+	<div class="box-content">
+		<h4 class="box-title">组织人员列表</h4>
+		<!-- /.box-title -->
+		<div class="dropdown js__drop_down">
+			<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+			<ul class="sub-menu">
+				<li><a href="#">Action</a></li>
+				<li><a href="#">Another action</a></li>
+				<li><a href="#">Something else there</a></li>
+				<li class="split"></li>
+				<li><a href="#">Separated link</a></li>
+			</ul>
+			<!-- /.sub-menu -->
+		</div>
+		<!-- /.dropdown js__dropdown -->
+		<table id="example" class="table table-striped table-bordered display" style="width:100%">
+			<thead>
+				<tr>
+					<th>详情</th>
+					<th>中文名</th>
+					<th>英文名</th>
+					<th>性别</th>
+					<th>职业</th>
+					<th>党派</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th>详情</th>
+					<th>中文名</th>
+					<th>英文名</th>
+					<th>性别</th>
+					<th>职业</th>
+					<th>党派</th>
+				</tr>
+			</tfoot>
+			<tbody>
+				{% for p in data %}
+				<tr>
+					<td><a class="btn btn-sm btn-warning" href="/profile/{{ p.id }}" role="button">详 情</a></td>
+					<td>{{ p.cn_name }}</td>
+					<td>{{ p.en_name }}</td>
+					<td>{{ p.gender }}</td>
+					<td>{{ p.occupation }}</td>
+					<td>{{ p.party_tag }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<!-- /.box-content -->
+</div>
+<!-- /.col-xs-12 -->
+
+{% endblock %}
