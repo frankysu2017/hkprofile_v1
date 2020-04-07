@@ -7,7 +7,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server
 
 from hkprofile import create_app
-from hkprofile.models import db, PersonInfo, Avatar
+from hkprofile.models import db, PersonInfo, Avatar, PartyTag
 
 
 env = os.environ.get('HKPROFILE_ENV', 'dev')
@@ -23,7 +23,7 @@ manager.add_command('db', MigrateCommand)
 
 @manager.shell
 def make_shell_context():
-    return dict(app=app, db=db, PersonInfo=PersonInfo, Avatar=Avatar)
+    return dict(app=app, db=db, PersonInfo=PersonInfo, Avatar=Avatar, PartyTag=PartyTag)
 
 
 if __name__ == '__main__':

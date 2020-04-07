@@ -8,7 +8,7 @@ from flask import Blueprint, render_template, request,url_for, redirect
 from datetime import datetime
 from sqlalchemy import or_
 
-from models import db, PersonInfo, Avatar
+from models import db, PersonInfo, Avatar, PartyTag
 from forms import QueryForm
 
 profile = Blueprint(
@@ -45,7 +45,6 @@ def index():
             PersonInfo.post_address.like('%{}%'.format(query_str)),
             PersonInfo.company_address.like('%{}%'.format(query_str)),
             PersonInfo.bank_account.like('%{}%'.format(query_str)),
-            PersonInfo.party_tag.like('%{}%'.format(query_str)),
             PersonInfo.occupation.like('%{}%'.format(query_str)),
             PersonInfo.private_phone.like('%{}%'.format(query_str)),
             PersonInfo.office_phone.like('%{}%'.format(query_str)),
@@ -84,13 +83,18 @@ def insert():
             birthdate=b_date, id_num=request.form['id_num'], permit_num=request.form['permit_num'],
             passport=request.form['passport'], home_address=request.form['home_address'],
             post_address=request.form['post_address'], company_address=request.form['company_address'],
-            party_tag=request.form['party'], occupation=request.form['occupation'], private_phone=request.form['private_phone'],
+            occupation=request.form['occupation'], private_phone=request.form['private_phone'],
             office_phone=request.form['company_phone'], fax=request.form['fax'], email=request.form['email'],
             internet_account=request.form['internet_account'], home_page=request.form['homepage'],
             bank_account=request.form['bank_account'], other_number=request.form['other_number'],
             family=request.form['family'], hobby=request.form['hobby'], experience=request.form['experience'],
             event=request.form['event'], stain=request.form['stain']
         )
+
+        if request.form['tags']:
+            for item in request.form['party'].split('-'):
+                tag = PartyTag(item)
+
         if request.form['picture']:
             for item in request.form['picture'].split('\n'):
                 avt = Avatar(item)
