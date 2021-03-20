@@ -16,7 +16,7 @@ greenlet==0.4.15
 hdfs3==0.3.1
 itsdangerous==1.1.0
 jdcal==1.4.1
-Jinja2==2.10.3
+Jinja2==2.11.3
 llvmlite==0.31.0
 lxml==4.4.2
 Mako==1.1.0
